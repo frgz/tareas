@@ -63,6 +63,20 @@ public class TareaController {
 		return "redirect:/";
 	}
 
+	@GetMapping(value = "/tarea/{id}")
+	public String editar(Model model, @PathVariable Long id) {
+		model.addAttribute("tarea", this.tareaService.obtener(id));
+		return DETAILS_PAGE;
+	}
+	
+	@PostMapping(value = "/tarea/{id}")
+	public String actualizar(@Valid Tarea tarea, BindingResult result, RedirectAttributes ra, @PathVariable Long id) {
+		tarea.setId(id);
+		this.tareaService.guardar(tarea);
+		ra.addFlashAttribute("Tarea creada.");
+		return "redirect:/";
+	}	
+
 	@GetMapping(value = "/tarea/{id}/eliminar")
 	public String eliminar(RedirectAttributes ra, @PathVariable Long id) {
 		this.tareaService.eliminar(id);

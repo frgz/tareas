@@ -87,4 +87,9 @@ class TareaServiceImpl implements TareaService {
 		tarea.setFechaRealizacion(Calendar.getInstance().getTime());
 		this.tareaRepository.save(tarea);
 	}
+	
+	@Override
+	public Tarea obtener(Long id) {
+		return this.tareaRepository.findOne(id);
+	}
 }

@@ -21,4 +21,6 @@ public interface TareaService {
 
 	void realizada(Long id);
 
+	Tarea obtener(Long id);
+
 }

@@ -37,7 +37,8 @@
 					<label for="nombre" class="sr-only"
 						th:text="#{tarea.details.nombre}">Nombre</label> <input
 						type="text" id="nombre" name="nombre" th:value="${nombre}"
-						class="form-control" placeholder="Nombre" autofocus="autofocus" maxlength="250" />
+						class="form-control" placeholder="Nombre" autofocus="autofocus"
+						maxlength="250" />
 
 					<button class="btn btn-primary" type="submit">
 						<span th:text="#{global.button.buscar}">Buscar</span>
@@ -57,19 +58,26 @@
 						<th class="text-center col col-lg-2"></th>
 						<th class="text-center col col-lg-1"></th>
 						<th class="text-center col col-lg-1"></th>
+						<th class="text-center col col-lg-1"></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="row : ${tareas}">
 						<td class="text-left" th:text="${row.nombre}">Nombre</td>
-						<td class="text-left"><span 							th:class=" ${row.realizada} ? 'label label-success' : 'label label-warning' " th:text="${row.realizada} ? #{tarea.index.realizada} : #{tarea.index.pendiente} ">Default</span></td>
+						<td class="text-left"><span
+							th:class=" ${row.realizada} ? 'label label-success' : 'label label-warning' "
+							th:text="${row.realizada} ? #{tarea.index.realizada} : #{tarea.index.pendiente} ">Default</span></td>
 						<td class="text-left"><span th:if="${row.realizada}"
 							th:text="${#dates.format(row.fechaRealizacion, 'd/MM/yyyy HH:mm')}"></span></td>
-						<td class="text-center celda-documento"><a
+						<td class="text-center"><a
 							th:href="@{/tarea/{id}/realizar(id=${row.id})}"
 							class="glyphicon glyphicon-time" aria-hidden="true"
 							th:if="!${row.realizada}" th:title="#{global.message.realizar}"></a></td>
-						<td class="text-center celda-documento"><a
+						<td class="text-center "><a
+							th:href="@{/tarea/{id}/(id=${row.id})}"
+							class="glyphicon glyphicon-pencil" aria-hidden="true"
+							th:if="!${row.realizada}" th:title="#{global.message.modificar}"></a></td>
+						<td class="text-center"><a
 							th:href="@{/tarea/{id}/eliminar(id=${row.id})}"
 							class="glyphicon glyphicon-remove" aria-hidden="true"
 							th:title="#{global.message.eliminar}"></a></td>
