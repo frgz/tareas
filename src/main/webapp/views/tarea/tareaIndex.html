@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/sec"
+	layout:decorate="~{/layout/default}">
+<head>
+<title>Listado de tareas</title>
+<meta charset="utf-8" />
+
+</head>
+<body>
+
+	<th:block layout:fragment="content">
+
+
+
+		<div class="col-xs-12 table-responsive">
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th class="celda-titulo"><span th:text="Nombre">Nombre</span></th>
+						<th class="celda-titulo"><span th:text="Realizada">Realizada</span></th>
+						<th class="text-center celda-documento"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="row : ${tareas}">
+						<td class="text-center" th:text="${row.nombre}">Nombre</td>
+						<td class="text-center" th:text="${row.realizada}">Estado</td>
+						<td class="text-center celda-documento"><a
+							th:href="@{/tarea/{id}/realizar(id=${row.id})}"
+							class="glyphicon glyphicon-eye-open" aria-hidden="true"
+							data-toggle="tooltip" th:title="Realizar tarea"></a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="row">
+			<div class="form-group col-xs-12 text-right">
+				<a th:href="@{/tarea/crear}" class="btn btn-success margin-left-1x"
+					data-toggle="tooltip" th:title="Crear tarea"> <em
+					class="fa fa-file-o" aria-hidden="true"></em> <span
+					th:text="Crear tarea">Crear tarea</span>
+				</a>
+			</div>
+		</div>
+
+		<div class="btn-group">
+			<div class="form-group col-xs-12 text-right">
+				<a th:href="@{/tarea/crear}" class="btn btn-success margin-left-1x"
+					data-toggle="tooltip" th:title="Crear tarea"> <em
+					class="fa fa-file-o" aria-hidden="true"></em> <span
+					th:text="Crear tarea">Crear tarea</span>
+				</a>
+			</div>
+		</div>
+
+	</th:block>
+</body>
+</html>
