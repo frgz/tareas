@@ -62,8 +62,7 @@
 				<tbody>
 					<tr th:each="row : ${tareas}">
 						<td class="text-left" th:text="${row.nombre}">Nombre</td>
-						<td class="text-left"><span th:if="${row.realizada}"
-							class="glyphicon glyphicon-ok"></span></td>
+						<td class="text-left"><span 							th:class=" ${row.realizada} ? 'label label-success' : 'label label-warning' " th:text="${row.realizada} ? #{tarea.index.realizada} : #{tarea.index.pendiente} ">Default</span></td>
 						<td class="text-left"><span th:if="${row.realizada}"
 							th:text="${#dates.format(row.fechaRealizacion, 'd/MM/yyyy HH:mm')}"></span></td>
 						<td class="text-center celda-documento"><a
