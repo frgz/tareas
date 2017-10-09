@@ -1,6 +1,7 @@
 package com.frgz.tareas.tarea;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,15 +28,19 @@ public class Tarea implements Serializable {
 
 	@Id
 	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@NotNull
-	@Size(max = 200)
-	@Column(name = "nombre", nullable = false, length = 200)
+	@Size(max = 250)
+	@Column(name = "nombre", nullable = false, length = 250)
 	private String nombre;
 
+	@Column(name = "realizada")
 	private Boolean realizada;
+
+	@Column(name = "fecha_realizacion")
+	private Date fechaRealizacion;
 
 	public Long getId() {
 		return id;
@@ -61,10 +66,19 @@ public class Tarea implements Serializable {
 		this.realizada = realizada;
 	}
 
+	public Date getFechaRealizacion() {
+		return fechaRealizacion;
+	}
+
+	public void setFechaRealizacion(Date fechaRealizacion) {
+		this.fechaRealizacion = fechaRealizacion;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((fechaRealizacion == null) ? 0 : fechaRealizacion.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		result = prime * result + ((realizada == null) ? 0 : realizada.hashCode());
@@ -80,6 +94,11 @@ public class Tarea implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Tarea other = (Tarea) obj;
+		if (fechaRealizacion == null) {
+			if (other.fechaRealizacion != null)
+				return false;
+		} else if (!fechaRealizacion.equals(other.fechaRealizacion))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;

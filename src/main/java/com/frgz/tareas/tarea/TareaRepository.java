@@ -15,6 +15,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 interface TareaRepository extends JpaRepository<Tarea, Long> {
 	
-	List<Tarea> findByNombre(String nombre);
+	List<Tarea> findByNombreContaining(String nombre);
 
 }

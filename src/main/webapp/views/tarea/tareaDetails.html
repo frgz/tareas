@@ -2,13 +2,42 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	xmlns:sec="http://www.thymeleaf.org/sec"
 	layout:decorate="~{/layout/default}">
 <head>
-<title>Crear tarea</title>
+<title>Crear tarea :: Gestor tareas personal</title>
 <meta charset="utf-8" />
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/custom.css}" />
 </head>
 <body>
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="navbar-brand">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#" th:text="#{app.title}"></a>
+			</div>
+		</div>
+	</nav>
+	<div class="container">
 
+		<form class="form-group" th:action="@{/tarea/guardar}"
+			th:object="${tarea}" method="post">
+			<fieldset>
+				<h2 class="form-signin-heading"
+					th:text="#{tarea.details.crear.tarea}">Crear tarea</h2>
+				<label for="nombre" class="sr-only"
+					th:text="#{tarea.details.nombre}">Nombre</label> <input type="text"
+					id="nombre" name="nombre" class="form-control" placeholder="Nombre"
+					required="required" autofocus="autofocus" maxlength="250"/>
+			</fieldset>
+			<button class="btn btn-primary " type="submit">
+				<span th:text="#{global.button.guardar}">Guardar</span>
+			</button>
+		</form>
+	</div>
+
+
+	<script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
 </body>
 </html>

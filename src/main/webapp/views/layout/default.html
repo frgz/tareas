@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.thymeleaf.org/layout">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <title>Default Layout Page</title>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link rel="stylesheet" media="screen"
+<link rel="stylesheet"
 	th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
 </head>
 <body>
@@ -40,7 +40,8 @@
 
 	<footer class="main-footer">
 		<div class="pull-right hidden-xs">
-			<b>Version</b> 2.3.5
+			<b th:text="#{layout.default.version}">Version</b> <span
+				th:text="#{app.version}">version</span>
 		</div>
 	</footer>
 
