@@ -18,16 +18,9 @@ class TareaServiceImpl implements TareaService {
 
 	private TareaRepository tareaRepository;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.frgz.tareas.tarea.TareaService#setTareaRepository(com.frgz.tareas.
-	 * tarea.TareaRepository)
-	 */
-	@Override
 	@Autowired
-	public void setTareaRepository(TareaRepository tareaRepository) {
+	public TareaServiceImpl(TareaRepository tareaRepository) {
+		super();
 		this.tareaRepository = tareaRepository;
 	}
 

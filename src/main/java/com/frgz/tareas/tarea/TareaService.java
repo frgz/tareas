@@ -9,8 +9,6 @@ import java.util.List;
  */
 public interface TareaService {
 
-	void setTareaRepository(TareaRepository tareaRepository);
-
 	List<Tarea> visualizar(String nombre);
 
 	void guardar(Tarea tarea);
