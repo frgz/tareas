@@ -8,9 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.frgz.tareas.lista.Lista;
+import com.frgz.tareas.usuario.Usuario;
 
 /**
  * 
@@ -27,17 +32,31 @@ public class Tarea implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "id")
+	@Column(name = "id", columnDefinition = "int(11)")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@NotNull
-	@Size(max = 250)
-	@Column(name = "nombre", nullable = false, length = 250)
+	@ManyToOne
+	@JoinColumn(name = "lista_id", referencedColumnName = "id", nullable = false, columnDefinition = "int(11)")
+	private Lista lista;
+
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name = "propietario_id", referencedColumnName = "id", nullable = false, columnDefinition = "int(11)")
+	private Usuario propietario;
+
+	@NotNull
+	@Size(max = 100)
+	@Column(name = "nombre", nullable = false, length = 100)
 	private String nombre;
 
-	@Column(name = "realizada")
-	private Boolean realizada;
+	@Size(max = 4000)
+	@Column(name = "descripcion", length = 4000)
+	private String descripcion;
+
+	@Column(name = "completada")
+	private Boolean completada;
 
 	@Column(name = "fecha_realizacion")
 	private Date fechaRealizacion;
@@ -50,6 +69,22 @@ public class Tarea implements Serializable {
 		this.id = id;
 	}
 
+	public Lista getLista() {
+		return lista;
+	}
+
+	public void setLista(Lista lista) {
+		this.lista = lista;
+	}
+
+	public Usuario getPropietario() {
+		return propietario;
+	}
+
+	public void setPropietario(Usuario propietario) {
+		this.propietario = propietario;
+	}
+
 	public String getNombre() {
 		return nombre;
 	}
@@ -58,12 +93,20 @@ public class Tarea implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public Boolean getRealizada() {
-		return realizada;
+	public String getDescripcion() {
+		return descripcion;
 	}
 
-	public void setRealizada(Boolean realizada) {
-		this.realizada = realizada;
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public Boolean getCompletada() {
+		return completada;
+	}
+
+	public void setCompletada(Boolean completada) {
+		this.completada = completada;
 	}
 
 	public Date getFechaRealizacion() {
@@ -78,10 +121,13 @@ public class Tarea implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((completada == null) ? 0 : completada.hashCode());
+		result = prime * result + ((descripcion == null) ? 0 : descripcion.hashCode());
 		result = prime * result + ((fechaRealizacion == null) ? 0 : fechaRealizacion.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((lista == null) ? 0 : lista.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		result = prime * result + ((realizada == null) ? 0 : realizada.hashCode());
+		result = prime * result + ((propietario == null) ? 0 : propietario.hashCode());
 		return result;
 	}
 
@@ -94,6 +140,16 @@ public class Tarea implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Tarea other = (Tarea) obj;
+		if (completada == null) {
+			if (other.completada != null)
+				return false;
+		} else if (!completada.equals(other.completada))
+			return false;
+		if (descripcion == null) {
+			if (other.descripcion != null)
+				return false;
+		} else if (!descripcion.equals(other.descripcion))
+			return false;
 		if (fechaRealizacion == null) {
 			if (other.fechaRealizacion != null)
 				return false;
@@ -104,15 +160,20 @@ public class Tarea implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (lista == null) {
+			if (other.lista != null)
+				return false;
+		} else if (!lista.equals(other.lista))
+			return false;
 		if (nombre == null) {
 			if (other.nombre != null)
 				return false;
 		} else if (!nombre.equals(other.nombre))
 			return false;
-		if (realizada == null) {
-			if (other.realizada != null)
+		if (propietario == null) {
+			if (other.propietario != null)
 				return false;
-		} else if (!realizada.equals(other.realizada))
+		} else if (!propietario.equals(other.propietario))
 			return false;
 		return true;
 	}

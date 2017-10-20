@@ -4,7 +4,7 @@
 package com.frgz.tareas.core.exception;
 
 /**
- * @author fdieper
+ * @author fabio
  *
  */
 public class RecursoNoEncontradoException extends Exception {

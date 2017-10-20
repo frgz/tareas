@@ -2,6 +2,9 @@ package com.frgz.tareas.tarea;
 
 import java.util.List;
 
+import com.frgz.tareas.lista.exception.ListaNoEncontradaException;
+import com.frgz.tareas.tarea.exception.TareaNoEncontradaException;
+
 /**
  * 
  * @author fabio
@@ -15,10 +18,10 @@ public interface TareaService {
 
 	void eliminar(Long id);
 
-	Tarea crear();
-
 	void realizada(Long id);
 
-	Tarea obtener(Long id);
+	Tarea obtener(Long id) throws TareaNoEncontradaException;
+
+	Tarea crear(Long idLista) throws ListaNoEncontradaException;
 
 }

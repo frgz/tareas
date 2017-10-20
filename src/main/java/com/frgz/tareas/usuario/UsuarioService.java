@@ -6,4 +6,6 @@ public interface UsuarioService {
 
 	Usuario findByEmail(String email) throws UsuarioNoEncontradoException;
 
+	Usuario findOne(Long id) throws UsuarioNoEncontradoException;
+
 }

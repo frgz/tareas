@@ -1,26 +1,29 @@
 /**
  * 
  */
-package com.frgz.tareas.role;
-
-import java.io.Serializable;
+package com.frgz.tareas.lista;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.frgz.tareas.core.domain.EntidadAuditable;
+import com.frgz.tareas.usuario.Usuario;
 
 /**
  * @author fabio
  *
  */
 @Entity
-@Table(name = "role")
-public class Role implements Serializable {
+@Table(name = "lista")
+public class Lista extends EntidadAuditable {
 
 	/**
 	 * 
@@ -33,14 +36,17 @@ public class Role implements Serializable {
 	private Long id;
 
 	@NotNull
-	@Size(max = 15)
-	@Column(name = "codigo", length = 15, unique = true, nullable = false, columnDefinition = "char")
-	private String codigo;
+	@Size(max = 100)
+	@Column(name = "nombre", nullable = false, length = 100)
+	private String nombre;
+
+	@Column(name = "activa")
+	private Boolean activa;
 
 	@NotNull
-	@Size(max = 250)
-	@Column(name = "nombre", nullable = false, length = 250, unique = true)
-	private String nombre;
+	@ManyToOne
+	@JoinColumn(name = "propietario_id", referencedColumnName = "id", nullable = false, columnDefinition = "int(11)")
+	private Usuario propietario;
 
 	public Long getId() {
 		return id;
@@ -48,14 +54,6 @@ public class Role implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getCodigo() {
-		return codigo;
-	}
-
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
 	}
 
 	public String getNombre() {
@@ -66,13 +64,30 @@ public class Role implements Serializable {
 		this.nombre = nombre;
 	}
 
+	public Boolean getActiva() {
+		return activa;
+	}
+
+	public void setActiva(Boolean activa) {
+		this.activa = activa;
+	}
+
+	public Usuario getPropietario() {
+		return propietario;
+	}
+
+	public void setPropietario(Usuario propietario) {
+		this.propietario = propietario;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		int result = super.hashCode();
+		result = prime * result + ((activa == null) ? 0 : activa.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		result = prime * result + ((propietario == null) ? 0 : propietario.hashCode());
 		return result;
 	}
 
@@ -80,15 +95,15 @@ public class Role implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Role other = (Role) obj;
-		if (codigo == null) {
-			if (other.codigo != null)
+		Lista other = (Lista) obj;
+		if (activa == null) {
+			if (other.activa != null)
 				return false;
-		} else if (!codigo.equals(other.codigo))
+		} else if (!activa.equals(other.activa))
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -99,6 +114,11 @@ public class Role implements Serializable {
 			if (other.nombre != null)
 				return false;
 		} else if (!nombre.equals(other.nombre))
+			return false;
+		if (propietario == null) {
+			if (other.propietario != null)
+				return false;
+		} else if (!propietario.equals(other.propietario))
 			return false;
 		return true;
 	}

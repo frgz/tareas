@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default}">
+<head>
+<title>Listas de tareas :: Gestor tareas personal</title>
+<meta charset="utf-8" />
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/custom.css}" />
+</head>
+<body>
+
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="navbar-brand">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#" th:text="#{app.title}"></a>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container">
+		<div class="row">
+
+			<form class="form-inline" th:action="@{/lista}" method="get">
+				<fieldset>
+
+					<div class="alert" th:if="${message}"
+						th:classappend="${#strings.toString(message.type) == 'SUCCESS'}? 'alert-success' : 'alert-danger'">
+						<span th:switch="${#lists.size(message.args)}"> <span
+							th:case="0" class="glyphicon glyphicon-ok-sign"
+							aria-hidden="true"></span> <span th:text="#{${message.message}}">Operación
+								realizada.</span> <span th:case="1"
+							class="glyphicon  glyphicon-ok-sign" aria-hidden="true"></span>
+						</span>
+					</div>
+					<label for="nombre" class="sr-only"
+						th:text="#{lista.details.nombre}">Nombre</label> <input
+						type="text" id="nombre" name="nombre" th:value="${nombre}"
+						class="form-control" placeholder="Nombre" autofocus="autofocus"
+						maxlength="250" />
+
+					<button class="btn btn-primary" type="submit">
+						<span th:text="#{global.button.buscar}">Buscar</span>
+					</button>
+				</fieldset>
+			</form>
+		</div>
+
+		<div class="col-xs-12 table-responsive">
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th class="col-12 col-md-auto"><span
+							th:text="#{lista.index.nombre}">Nombre</span></th>
+						<th class="text-center col col-lg-2"></th>
+						<th class="text-center col col-lg-1"></th>
+						<th class="text-center col col-lg-1"></th>
+						<th class="text-center col col-lg-1"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="row : ${page}">
+						<td class="text-left" th:text="${row.nombre}">Nombre</td>
+						<td class="text-center"><a
+							th:href="@{/lista/{id}/eliminar(id=${row.id})}"
+							class="glyphicon glyphicon-remove" aria-hidden="true"
+							th:title="#{global.message.eliminar}"></a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="btn-group">
+			<a th:href="@{/lista/crear}" class="btn btn-primary"
+				th:text="#{lista.index.crear.lista}">Crear lista </a>
+		</div>
+	</div>
+
+	<script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+</body>
+</html>

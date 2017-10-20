@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.frgz.tareas.usuario.exception.UsuarioNoEncontradoException;
 
 /**
- * @author fdieper
+ * @author fabio
  *
  */
 @Service
@@ -37,5 +37,18 @@ class UsuarioServiceImpl implements UsuarioService {
 			throw new UsuarioNoEncontradoException(email);
 		}
 		return usuario;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.frgz.tareas.usuario.UsuarioService#findOne(java.lang.Long)
+	 */
+	@Override
+	public Usuario findOne(Long id) throws UsuarioNoEncontradoException {
+		Usuario usuario = this.usuarioRepository.findOne(id);
+		if (usuario == null) {
+			throw new UsuarioNoEncontradoException(id);
+		}
+		return usuario;		
 	}
 }

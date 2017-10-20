@@ -14,17 +14,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.frgz.tareas.lista.exception.ListaNoEncontradaException;
 import com.frgz.tareas.tarea.Tarea;
 import com.frgz.tareas.tarea.TareaService;
+import com.frgz.tareas.tarea.exception.TareaNoEncontradaException;
 
 /**
  * @author fabio
  *
  */
 @Controller
+@RequestMapping("/lista/{idLista}/tarea")
+@SessionAttributes("tarea")
 public class TareaController {
 
 	private static final String INDEX_PAGE = "tarea/tareaIndex";
@@ -51,9 +57,14 @@ public class TareaController {
 	}
 
 	@GetMapping(value = "/tarea/crear")
-	public String crear(Model model) {
-		model.addAttribute("tarea", this.tareaService.crear());
-		return DETAILS_PAGE;
+	public String crear(@PathVariable("idLista") Long idLista, Model model, RedirectAttributes ra) {
+		try {
+			model.addAttribute("tarea", this.tareaService.crear(idLista));
+			return DETAILS_PAGE;
+		} catch (ListaNoEncontradaException e) {
+			ra.addFlashAttribute("error", "No existe la lista de tareas seleccionada");
+			return "redirect:/lista/" + idLista;
+		}		
 	}
 
 	@PostMapping(value = "/tarea/guardar")
@@ -64,9 +75,15 @@ public class TareaController {
 	}
 
 	@GetMapping(value = "/tarea/{id}")
-	public String editar(Model model, @PathVariable Long id) {
-		model.addAttribute("tarea", this.tareaService.obtener(id));
-		return DETAILS_PAGE;
+	public String editar(@PathVariable("idLista") Long idLista, @PathVariable Long id, Model model, RedirectAttributes ra) {
+		try {
+			model.addAttribute("tarea", this.tareaService.obtener(id));
+			return DETAILS_PAGE;
+		} catch (TareaNoEncontradaException e) {
+			ra.addFlashAttribute("error", "No existe la lista de tareas seleccionada");
+			return "redirect:/lista/" + idLista + "/tarea";
+		}
+		
 	}
 	
 	@PostMapping(value = "/tarea/{id}")

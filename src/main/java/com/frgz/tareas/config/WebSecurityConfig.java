@@ -3,6 +3,7 @@
  */
 package com.frgz.tareas.config;
 
+import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,13 +37,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		// Configuracion de seguridad
 		httpSecurity.authorizeRequests()
-		   .antMatchers("/webjars/**", "/resources/**").permitAll()
+		   .antMatchers("/webjars/**", "/resources/**", "/login/**").permitAll()
+		   .antMatchers("/login").permitAll()
 		   .antMatchers("/tarea").access("hasRole('ROLE_ADMIN')")
+		   .antMatchers("/lista").access("hasRole('ROLE_ADMIN')")
 		   .anyRequest().permitAll()
 		   .and()
 		     .formLogin().loginPage("/login")
 		     .usernameParameter("email").passwordParameter("password")
-		     .defaultSuccessUrl("/tarea", true)
+		     .defaultSuccessUrl("/lista", true)
 		     .permitAll()
 		   .and()
 		     .logout().logoutSuccessUrl("/logout")
@@ -52,6 +55,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		   .and()
 		     .csrf();		
 	}
+	
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) {
+        try {
+            auth
+                .userDetailsService(userDetailsService)
+                    .passwordEncoder(passwordEncoder());
+        } catch (Exception e) {
+            throw new BeanInitializationException("Security configuration failed", e);
+        }
+    }	
 
 	@Bean(name = "passwordEncode")
 	public PasswordEncoder passwordEncoder() {

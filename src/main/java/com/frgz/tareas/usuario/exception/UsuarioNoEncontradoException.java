@@ -19,5 +19,9 @@ public class UsuarioNoEncontradoException extends RecursoNoEncontradoException {
 	public UsuarioNoEncontradoException(String email) {
 		super("El usuario con email '" + email + "' no existe.");
 	}
+	
+	public UsuarioNoEncontradoException(Long id) {
+		super("El usuario con id '" + id + "' no existe.");
+	}	
 
 }

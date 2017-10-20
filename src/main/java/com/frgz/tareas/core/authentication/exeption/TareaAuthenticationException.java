@@ -6,7 +6,7 @@ package com.frgz.tareas.core.authentication.exeption;
 import org.springframework.security.core.AuthenticationException;
 
 /**
- * @author fdieper
+ * @author fabio
  *
  */
 public class TareaAuthenticationException extends AuthenticationException {
