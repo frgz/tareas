@@ -1,13 +1,9 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{/layout/default}">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/default}">
 <head>
 <title>Crear tarea :: Gestor tareas personal</title>
 <meta charset="utf-8" />
-<link rel="stylesheet"
-	th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/custom.css}" />
 </head>
 <body>
@@ -20,16 +16,15 @@
 	</nav>
 	<div class="container">
 
-		<form class="form-group" th:action="@{(${tarea.id} ? '/tarea/__${tarea.id}__' : '/tarea/guardar')}"
-			th:object="${tarea}" method="post">
+		<form class="form-group" th:action="@{(${tarea.id} ? '/tarea/__${tarea.id}__' : '/tarea/guardar')}" th:object="${tarea}" method="post">
 			<fieldset>
 				<input type="hidden" th:field="*{id}" />
-				<h2 class="form-signin-heading"
-					th:text="${tarea.id} ? #{tarea.details.modificar.tarea} : #{tarea.details.crear.tarea}">Gestion tarea</h2>
-				<label for="nombre" class="sr-only"
-					th:text="#{tarea.details.nombre}">Nombre</label> <input type="text"
-					id="nombre" name="nombre" th:field="*{nombre}" class="form-control" placeholder="Nombre"
-					required="required" autofocus="autofocus" maxlength="250"/>
+				<h2 class="form-signin-heading" th:text="${tarea.id} ${tarea.id} ? #{tarea.details.modificar.tarea} : #{tarea.details.crear.tarea}">Gestion tarea</h2>
+				<div class="form-group col-xs-12 required" th:classappend="${#fields.hasErrors('nombre')}? 'has-error has-feedback '">
+					<label for="nombre" class="sr-only" th:text="#{tarea.details.nombre}">Nombre</label> <input type="text" id="nombre" name="nombre" th:field="*{nombre}" class="form-control"
+						placeholder="Nombre" required="required" autofocus="autofocus" maxlength="250" />
+						<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" th:if="${#fields.hasErrors('nombre')}"></span>
+				</div>
 			</fieldset>
 			<button class="btn btn-primary " type="submit">
 				<span th:text="#{global.button.guardar}">Guardar</span>

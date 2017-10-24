@@ -1,39 +1,47 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{/layout/default}">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/default}">
 <head>
 <title>Crear lista :: Gestor tareas personal</title>
 <meta charset="utf-8" />
-<link rel="stylesheet"
-	th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/custom.css}" />
 </head>
 <body>
+
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="navbar-brand">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#" th:text="#{app.title}"></a>
 			</div>
 		</div>
+		<div>
+			<span sec:authentication="username">Usuario</span>
+		</div>
+		<form th:action="@{/logout}" method="post" style="display: inlineblock">
+			<input type="submit" value="Salir" />
+		</form>
 	</nav>
+
 	<div class="container">
 
-		<form class="form-group" th:action="@{(${lista.id} ? '/lista/__${lista.id}__' : '/lista/guardar')}"
-			th:object="${lista}" method="post">
+		<ul>
+			<li th:each="err : ${#fields.errors('*')}" th:text="${err}" />
+		</ul>
+
+		<form class="form-group" th:action="@{(${lista.id} ? '/lista/__${lista.id}__' : '/lista/guardar')}" th:object="${lista}" method="post">
 			<fieldset>
 				<input type="hidden" th:field="*{id}" />
-				<h2 class="form-signin-heading"
-					th:text="${lista.id} ? #{lista.details.modificar.lista} : #{lista.details.crear.lista}">Gestion lista de tareas</h2>
-				<label for="nombre" class="sr-only"
-					th:text="#{lista.details.nombre}">Nombre</label> <input type="text"
-					id="nombre" name="nombre" th:field="*{nombre}" class="form-control" placeholder="Nombre"
-					required="required" autofocus="autofocus" maxlength="250"/>
+				<h2 class="form-signin-heading" th:text="${lista.id} ? #{lista.details.modificar.lista} : #{lista.details.crear.lista}">Gestion lista de tareas</h2>
+				<label for="nombre" class="sr-only" th:text="#{lista.details.nombre}">Nombre</label> <input type="text" id="nombre" name="nombre" th:field="*{nombre}" class="form-control"
+					placeholder="Nombre" required="required" autofocus="autofocus" maxlength="250" th:errorclass="has-error" />
 			</fieldset>
-			<button class="btn btn-primary " type="submit">
+
+			<button class="btn btn-primary " type="submit" sec:authorize="hasRole('ROLE_ADMIN')">
 				<span th:text="#{global.button.guardar}">Guardar</span>
 			</button>
+			<a th:href="@{/lista}" href="#" class="btn btn-default m-r-10 m-b-5" aria-hidden="true" data-toggle="tooltip" th:title="#{global.button.cancelar}"><span
+				th:text="#{global.button.cancelar}">Cancelar</span> </a>
 		</form>
 	</div>
 

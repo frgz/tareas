@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.frgz.tareas.core.authentication.AuthenticationFacade;
 import com.frgz.tareas.lista.Lista;
-import com.frgz.tareas.lista.ListaService;
 import com.frgz.tareas.lista.exception.ListaNoEncontradaException;
 import com.frgz.tareas.tarea.exception.TareaNoEncontradaException;
 
@@ -22,23 +22,21 @@ import com.frgz.tareas.tarea.exception.TareaNoEncontradaException;
 class TareaServiceImpl implements TareaService {
 
 	private TareaRepository tareaRepository;
-	private ListaService listaService;
+	private AuthenticationFacade autenticationFacade;
 
 	@Autowired
-	public TareaServiceImpl(TareaRepository tareaRepository, ListaService listaService) {
+	public TareaServiceImpl(TareaRepository tareaRepository, AuthenticationFacade autenticationFacade) {
 		super();
 		this.tareaRepository = tareaRepository;
-		this.listaService = listaService;
+		this.autenticationFacade = autenticationFacade;
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * 
-	 * @see com.frgz.tareas.tarea.TareaService#visualizar(java.lang.String)
 	 */
 	@Override
-	public List<Tarea> visualizar(String nombre) {
-		return this.tareaRepository.findByNombreContaining(nombre);
+	public List<Tarea> visualizar(Long idLista, String nombre) {
+		return this.tareaRepository.findByNombreContainingAndLista(nombre, idLista);
 	}
 
 	/*
@@ -71,9 +69,12 @@ class TareaServiceImpl implements TareaService {
 	 */
 	@Override
 	public Tarea crear(Long idLista) throws ListaNoEncontradaException {
-		Lista lista = this.listaService.obtener(idLista);
+		Lista lista = new Lista();
+		lista.setId(idLista);
 		Tarea tarea = new Tarea();
 		tarea.setLista(lista);
+		tarea.setPropietario(this.autenticationFacade.getUsuario());
+		tarea.setCompletada(Boolean.FALSE);
 		return tarea;
 	}
 

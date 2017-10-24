@@ -61,7 +61,15 @@ public class UserDetailsTarea extends Usuario implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return usuario.isActivo();
+	}
+
+	public Long getIdUsuario() {
+		return this.usuario.getId();
+	}
+
+	public String getNombreApellidos() {
+		return this.usuario.getNombre() + " " + this.usuario.getApellidos();
 	}
 
 }

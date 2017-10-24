@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class LoginController {
 
 	private static final String LOGIN_PAGE = "login";
-	private static final String HOME_PAGE = "redirect:/";
+	private static final String HOME_PAGE = "redirect:/lista";
 
 	@GetMapping
 	public String login(Principal principal) {

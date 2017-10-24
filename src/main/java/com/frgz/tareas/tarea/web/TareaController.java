@@ -5,7 +5,10 @@ package com.frgz.tareas.tarea.web;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.frgz.tareas.lista.Lista;
+import com.frgz.tareas.lista.ListaService;
 import com.frgz.tareas.lista.exception.ListaNoEncontradaException;
 import com.frgz.tareas.tarea.Tarea;
 import com.frgz.tareas.tarea.TareaService;
@@ -29,18 +34,24 @@ import com.frgz.tareas.tarea.exception.TareaNoEncontradaException;
  *
  */
 @Controller
-@RequestMapping("/lista/{idLista}/tarea")
+@RequestMapping("/lista/{idLista}/tareas")
 @SessionAttributes("tarea")
+@Secured("ROLE_USER")
 public class TareaController {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(TareaController.class);
 
 	private static final String INDEX_PAGE = "tarea/tareaIndex";
 	private static final String DETAILS_PAGE = "tarea/tareaDetails";
 
 	private TareaService tareaService;
+	private ListaService listaService;
 
 	@Autowired
-	public void setTareaService(TareaService tareaService) {
+	public TareaController(TareaService tareaService, ListaService listaService) {
+		super();
 		this.tareaService = tareaService;
+		this.listaService = listaService;
 	}
 
 	@InitBinder("tarea")
@@ -49,22 +60,31 @@ public class TareaController {
 		dataBinder.setAllowedFields("nombre");
 	}
 
-	@GetMapping(value = { "/", "/tarea" })
-	public String index(Model model, @RequestParam(defaultValue = "") String nombre) {
-		model.addAttribute("tareas", this.tareaService.visualizar(nombre));
-		model.addAttribute("nombre", nombre);
-		return INDEX_PAGE;
+	@GetMapping
+	public String index(Model model, @PathVariable(name = "idLista") Long idLista,
+			@RequestParam(defaultValue = "") String nombre, RedirectAttributes ra) {
+		try {
+			model.addAttribute("lista", obtenerLista(idLista));
+			model.addAttribute("tareas", this.tareaService.visualizar(idLista, nombre));
+			model.addAttribute("nombre", nombre);
+			return INDEX_PAGE;
+		} catch (ListaNoEncontradaException e) {
+			ra.addFlashAttribute("error", "No existe la lista seleccionada.");
+			return "redirect:/lista";
+		}
+
 	}
 
-	@GetMapping(value = "/tarea/crear")
+	@GetMapping(value = "/crear")
 	public String crear(@PathVariable("idLista") Long idLista, Model model, RedirectAttributes ra) {
 		try {
+			model.addAttribute("lista", obtenerLista(idLista));
 			model.addAttribute("tarea", this.tareaService.crear(idLista));
 			return DETAILS_PAGE;
 		} catch (ListaNoEncontradaException e) {
 			ra.addFlashAttribute("error", "No existe la lista de tareas seleccionada");
 			return "redirect:/lista/" + idLista;
-		}		
+		}
 	}
 
 	@PostMapping(value = "/tarea/guardar")
@@ -74,25 +94,30 @@ public class TareaController {
 		return "redirect:/";
 	}
 
-	@GetMapping(value = "/tarea/{id}")
-	public String editar(@PathVariable("idLista") Long idLista, @PathVariable Long id, Model model, RedirectAttributes ra) {
+	@GetMapping(value = "/{id}")
+	public String editar(@PathVariable("idLista") Long idLista, @PathVariable Long id, Model model,
+			RedirectAttributes ra) {
 		try {
+			model.addAttribute("lista", obtenerLista(idLista));
 			model.addAttribute("tarea", this.tareaService.obtener(id));
 			return DETAILS_PAGE;
 		} catch (TareaNoEncontradaException e) {
+			ra.addFlashAttribute("error", "No existe la tarea seleccionada");
+			return "redirect:/lista/" + idLista + "/tarea";
+		} catch (ListaNoEncontradaException e) {
 			ra.addFlashAttribute("error", "No existe la lista de tareas seleccionada");
 			return "redirect:/lista/" + idLista + "/tarea";
 		}
-		
+
 	}
-	
+
 	@PostMapping(value = "/tarea/{id}")
 	public String actualizar(@Valid Tarea tarea, BindingResult result, RedirectAttributes ra, @PathVariable Long id) {
 		tarea.setId(id);
 		this.tareaService.guardar(tarea);
 		ra.addFlashAttribute("Tarea creada.");
 		return "redirect:/";
-	}	
+	}
 
 	@GetMapping(value = "/tarea/{id}/eliminar")
 	public String eliminar(RedirectAttributes ra, @PathVariable Long id) {
@@ -106,6 +131,10 @@ public class TareaController {
 		this.tareaService.realizada(id);
 		ra.addFlashAttribute("Tarea realizada");
 		return "redirect:/";
+	}
+
+	private Lista obtenerLista(Long listaId) throws ListaNoEncontradaException {
+		return this.listaService.obtener(listaId);
 	}
 
 }

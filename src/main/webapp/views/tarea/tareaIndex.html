@@ -1,12 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/default}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
 <head>
 <title>Listado tareas :: Gestor tareas personal</title>
 <meta charset="utf-8" />
-<link rel="stylesheet"
-	th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/custom.css}" />
 </head>
 <body>
@@ -24,21 +21,15 @@
 
 			<form class="form-inline" th:action="@{/tarea}" method="get">
 				<fieldset>
+					<h2 class="form-signin-heading" th:text="${lista.nombre}">Tareas de la lista</h2>
 
-					<div class="alert" th:if="${message}"
-						th:classappend="${#strings.toString(message.type) == 'SUCCESS'}? 'alert-success' : 'alert-danger'">
-						<span th:switch="${#lists.size(message.args)}"> <span
-							th:case="0" class="glyphicon glyphicon-ok-sign"
-							aria-hidden="true"></span> <span th:text="#{${message.message}}">Operación
-								realizada.</span> <span th:case="1"
-							class="glyphicon  glyphicon-ok-sign" aria-hidden="true"></span>
+					<div class="alert" th:if="${message}" th:classappend="${#strings.toString(message.type) == 'SUCCESS'}? 'alert-success' : 'alert-danger'">
+						<span th:switch="${#lists.size(message.args)}"> <span th:case="0" class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> <span th:text="#{${message.message}}">Operación
+								realizada.</span> <span th:case="1" class="glyphicon  glyphicon-ok-sign" aria-hidden="true"></span>
 						</span>
 					</div>
-					<label for="nombre" class="sr-only"
-						th:text="#{tarea.details.nombre}">Nombre</label> <input
-						type="text" id="nombre" name="nombre" th:value="${nombre}"
-						class="form-control" placeholder="Nombre" autofocus="autofocus"
-						maxlength="250" />
+					<label for="nombre" class="sr-only" th:text="#{tarea.details.nombre}">Nombre</label> <input type="text" id="nombre" name="nombre" th:value="${nombre}" class="form-control"
+						placeholder="Nombre" autofocus="autofocus" maxlength="250" />
 
 					<button class="btn btn-primary" type="submit">
 						<span th:text="#{global.button.buscar}">Buscar</span>
@@ -51,10 +42,8 @@
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>
-						<th class="col-12 col-md-auto"><span
-							th:text="#{tarea.index.nombre}">Nombre</span></th>
-						<th class="col col-lg-1"><span
-							th:text="#{tarea.index.realizada}">Realizada</span></th>
+						<th class="col-12 col-md-auto"><span th:text="#{tarea.index.nombre}">Nombre</span></th>
+						<th class="col col-lg-1"><span th:text="#{tarea.index.realizada}">Realizada</span></th>
 						<th class="text-center col col-lg-2"></th>
 						<th class="text-center col col-lg-1"></th>
 						<th class="text-center col col-lg-1"></th>
@@ -64,31 +53,21 @@
 				<tbody>
 					<tr th:each="row : ${tareas}">
 						<td class="text-left" th:text="${row.nombre}">Nombre</td>
-						<td class="text-left"><span
-							th:class=" ${row.realizada} ? 'label label-success' : 'label label-warning' "
+						<td class="text-left"><span th:class=" ${row.realizada} ? 'label label-success' : 'label label-warning' "
 							th:text="${row.realizada} ? #{tarea.index.realizada} : #{tarea.index.pendiente} ">Default</span></td>
-						<td class="text-left"><span th:if="${row.realizada}"
-							th:text="${#dates.format(row.fechaRealizacion, 'd/MM/yyyy HH:mm')}"></span></td>
-						<td class="text-center"><a
-							th:href="@{/tarea/{id}/realizar(id=${row.id})}"
-							class="glyphicon glyphicon-time" aria-hidden="true"
-							th:if="!${row.realizada}" th:title="#{global.message.realizar}"></a></td>
-						<td class="text-center "><a
-							th:href="@{/tarea/{id}/(id=${row.id})}"
-							class="glyphicon glyphicon-pencil" aria-hidden="true"
-							th:if="!${row.realizada}" th:title="#{global.message.modificar}"></a></td>
-						<td class="text-center"><a
-							th:href="@{/tarea/{id}/eliminar(id=${row.id})}"
-							class="glyphicon glyphicon-remove" aria-hidden="true"
-							th:title="#{global.message.eliminar}"></a></td>
+						<td class="text-left"><span th:if="${row.realizada}" th:text="${#dates.format(row.fechaRealizacion, 'd/MM/yyyy HH:mm')}"></span></td>
+						<td class="text-center"><a th:href="@{/tarea/{id}/realizar(id=${row.id})}" class="glyphicon glyphicon-time" aria-hidden="true" th:if="!${row.realizada}"
+							th:title="#{global.message.realizar}"></a></td>
+						<td class="text-center "><a th:href="@{/tarea/{id}/(id=${row.id})}" class="glyphicon glyphicon-pencil" aria-hidden="true" th:if="!${row.realizada}"
+							th:title="#{global.message.modificar}"></a></td>
+						<td class="text-center"><a th:href="@{/tarea/{id}/eliminar(id=${row.id})}" class="glyphicon glyphicon-remove" aria-hidden="true" th:title="#{global.message.eliminar}"></a></td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 
-		<div class="btn-group">
-			<a th:href="@{/tarea/crear}" class="btn btn-primary"
-				th:text="#{tarea.index.crear.tarea}">Crear tarea </a>
+		<div class="btn-group" th:if="${lista.activa}">
+			<a th:href="@{/lista/__${lista.id}__/tareas/crear}" class="btn btn-primary" th:text="#{tarea.index.crear.tarea}">Crear tarea </a>
 		</div>
 	</div>
 

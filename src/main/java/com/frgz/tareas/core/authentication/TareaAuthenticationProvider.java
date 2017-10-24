@@ -4,6 +4,7 @@
 package com.frgz.tareas.core.authentication;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import com.frgz.tareas.core.authentication.exeption.TareaAuthenticationException;
 import com.frgz.tareas.core.security.UserDetailsTarea;
@@ -26,12 +28,13 @@ import com.frgz.tareas.usuario.exception.UsuarioNoEncontradoException;
  * @author fabio
  *
  */
-public class AuthenticationProviderImpl implements AuthenticationProvider {
+@Component
+public class TareaAuthenticationProvider implements AuthenticationProvider {
 
 	private UsuarioService usuarioService;
 
 	@Autowired
-	public AuthenticationProviderImpl(UsuarioService usuarioService) {
+	public TareaAuthenticationProvider(UsuarioService usuarioService) {
 		super();
 		this.usuarioService = usuarioService;
 	}
@@ -41,10 +44,14 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
 		String email = (String) authentication.getPrincipal();
 		try {
 			Usuario usuario = this.usuarioService.findByEmail(email);
+			if (!usuario.isActivo()) {
+				throw new TareaAuthenticationException("Usuario no activo con email: " + email);
+			}
 			BCryptPasswordEncoder passwordEncoder = passwordEncoder();
 			if (!passwordEncoder.matches((String) authentication.getCredentials(), usuario.getPassword())) {
 				throw new TareaAuthenticationException("Credenciales incorrectas para el usuario con email: " + email);
 			}
+			usuario.setFechaUltimoAcceso(Calendar.getInstance().getTime());
 
 			return new UsernamePasswordAuthenticationToken(new UserDetailsTarea(usuario),
 					authentication.getCredentials(), getAuthorities(usuario));
@@ -55,7 +62,7 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
 
 	private final List<GrantedAuthority> getAuthorities(final Usuario usuario) {
 		final List<GrantedAuthority> authoritiesList = new ArrayList<GrantedAuthority>();
-		authoritiesList.add(new SimpleGrantedAuthority(usuario.getRole().getNombre()));
+		authoritiesList.add(new SimpleGrantedAuthority(usuario.getRole().getCodigo()));
 		return authoritiesList;
 	}
 

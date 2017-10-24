@@ -38,9 +38,10 @@ class UsuarioServiceImpl implements UsuarioService {
 		}
 		return usuario;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see com.frgz.tareas.usuario.UsuarioService#findOne(java.lang.Long)
 	 */
 	@Override
@@ -49,6 +50,6 @@ class UsuarioServiceImpl implements UsuarioService {
 		if (usuario == null) {
 			throw new UsuarioNoEncontradoException(id);
 		}
-		return usuario;		
+		return usuario;
 	}
 }

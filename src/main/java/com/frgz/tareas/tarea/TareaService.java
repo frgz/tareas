@@ -12,7 +12,7 @@ import com.frgz.tareas.tarea.exception.TareaNoEncontradaException;
  */
 public interface TareaService {
 
-	List<Tarea> visualizar(String nombre);
+	List<Tarea> visualizar(Long idLista, String nombre);
 
 	void guardar(Tarea tarea);
 

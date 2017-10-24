@@ -1,25 +1,30 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>Login :: Gestor tareas personal</title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<link rel="stylesheet"
-	th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
 </head>
 <body>
-	<div class="wrapper">
-		<div class="col-xs-12">
-			<form class="form-signin" th:action="@{/login}" method="post"
-				role="form">
-				<h2 class="form-signin-heading">Please login</h2>
-				<input type="text" class="form-control" name="email"
-					placeholder="Email Address" required="" autofocus="" /> <input
-					type="password" class="form-control" name="password"
-					placeholder="Password" required="" />
+	<div class="container">
+		<div class="col-xs-6">
+			<form th:action="@{/login}" method="post" class="form-signin" role="form">
+				<h2 class="form-signin-heading" th:text="#{login.entrada.sistema}">Entrada ao sistema</h2>
+				<input type="email" class="form-control" name="email" id="email" placeholder="Email Address" required="" autofocus="" th:placeholder="#{login.email}" /> <input type="password"
+					class="form-control" name="password" id="password" placeholder="Password" required="" th:placeholder="#{login.contrasena}" />
 				<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+				<div align="center" th:if="${param.error}">
+					<div class="alert alert-danger" role="alert">
+						<p style="font-size: 20; color: #FF1C19;" th:text="#{login.error.entrar.sistema}">Error al entrar al sistema</p>
+					</div>
+				</div>
+				<div align="center" th:if="${param.logout}">
+					<div class="alert alert-info" role="info">
+						<p style="font-size: 20;" th:text="#{login.desconexion.exito}">Desconexión con éxito</p>
+					</div>
+				</div>
 			</form>
 		</div>
 	</div>

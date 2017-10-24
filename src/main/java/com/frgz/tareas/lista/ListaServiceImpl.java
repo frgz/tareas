@@ -9,8 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.frgz.tareas.core.authentication.AuthenticationFacade;
 import com.frgz.tareas.lista.exception.ListaNoEncontradaException;
-import com.frgz.tareas.usuario.UsuarioService;
+import com.frgz.tareas.lista.exception.ListaYaExisteException;
 import com.frgz.tareas.usuario.exception.UsuarioNoEncontradoException;
 
 /**
@@ -22,13 +23,13 @@ import com.frgz.tareas.usuario.exception.UsuarioNoEncontradoException;
 class ListaServiceImpl implements ListaService {
 
 	private ListaRepository listaRepository;
-	private UsuarioService usuarioService;
+	private AuthenticationFacade autenticationFacade;
 
 	@Autowired
-	public ListaServiceImpl(ListaRepository listaRepository, UsuarioService usuarioService) {
+	public ListaServiceImpl(ListaRepository listaRepository, AuthenticationFacade autenticationFacade) {
 		super();
 		this.listaRepository = listaRepository;
-		this.usuarioService = usuarioService;
+		this.autenticationFacade = autenticationFacade;
 	}
 
 	/*
@@ -49,7 +50,16 @@ class ListaServiceImpl implements ListaService {
 	 */
 	@Override
 	@Transactional(readOnly = false)
-	public void guardar(Lista lista) {
+	public void guardar(Lista lista) throws ListaYaExisteException {
+		if (lista.getId() == null) {
+			if (existeNombreLista(lista.getNombre())) {
+				throw new ListaYaExisteException(lista.getNombre());
+			}
+		} else {
+			if (existeNombreListaOtros(lista.getNombre(), lista.getId())) {
+				throw new ListaYaExisteException(lista.getNombre());
+			}
+		}
 		this.listaRepository.save(lista);
 	}
 
@@ -72,7 +82,7 @@ class ListaServiceImpl implements ListaService {
 	@Override
 	public Lista crear() throws UsuarioNoEncontradoException {
 		Lista lista = new Lista();
-		lista.setPropietario(this.usuarioService.findOne(1L));
+		lista.setPropietario(this.autenticationFacade.getUsuario());
 		lista.setActiva(Boolean.TRUE);
 		return lista;
 	}
@@ -89,6 +99,16 @@ class ListaServiceImpl implements ListaService {
 			throw new ListaNoEncontradaException(id);
 		}
 		return lista;
+	}
+
+	private boolean existeNombreLista(String nombre) {
+		int iguales = this.listaRepository.countByNombre(nombre);
+		return iguales > 0;
+	}
+
+	private boolean existeNombreListaOtros(String nombre, Long idLista) {
+		int iguales = this.listaRepository.countByNombreAndDistinctLista(nombre, idLista);
+		return iguales > 0;
 	}
 
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +16,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.frgz.tareas.core.authentication.TareaAuthenticationProvider;
 
 /**
  * @author fabio
@@ -25,12 +28,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
-	@Autowired 
+	@Autowired
 	private UserDetailsService userDetailsService;
+	
+	@Autowired
+	private TareaAuthenticationProvider tareaAutenticationProvider;
+	
 	
 	@Autowired
 	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {    	
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+		auth.authenticationProvider(tareaAutenticationProvider);
 	}
 
 	@Override
@@ -39,8 +47,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.authorizeRequests()
 		   .antMatchers("/webjars/**", "/resources/**", "/login/**").permitAll()
 		   .antMatchers("/login").permitAll()
-		   .antMatchers("/tarea").access("hasRole('ROLE_ADMIN')")
-		   .antMatchers("/lista").access("hasRole('ROLE_ADMIN')")
+		   .antMatchers("/tarea**").access("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+		   .antMatchers("/lista**").access("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 		   .anyRequest().permitAll()
 		   .and()
 		     .formLogin().loginPage("/login")
@@ -48,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		     .defaultSuccessUrl("/lista", true)
 		     .permitAll()
 		   .and()
-		     .logout().logoutSuccessUrl("/logout")
+		     .logout().logoutSuccessUrl("/login?logout")
 		     .permitAll()
 		   .and()
 		    .exceptionHandling().accessDeniedPage("/403")
