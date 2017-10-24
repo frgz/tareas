@@ -36,7 +36,7 @@ import com.frgz.tareas.tarea.exception.TareaNoEncontradaException;
 @Controller
 @RequestMapping("/lista/{idLista}/tareas")
 @SessionAttributes("tarea")
-@Secured("ROLE_USER")
+@Secured({ "ROLE_USER", "ROLE_ADMIN" })
 public class TareaController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(TareaController.class);
@@ -64,6 +64,7 @@ public class TareaController {
 	public String index(Model model, @PathVariable(name = "idLista") Long idLista,
 			@RequestParam(defaultValue = "") String nombre, RedirectAttributes ra) {
 		try {
+			LOGGER.debug("Mostrando las tareas...");
 			model.addAttribute("lista", obtenerLista(idLista));
 			model.addAttribute("tareas", this.tareaService.visualizar(idLista, nombre));
 			model.addAttribute("nombre", nombre);
@@ -78,6 +79,7 @@ public class TareaController {
 	@GetMapping(value = "/crear")
 	public String crear(@PathVariable("idLista") Long idLista, Model model, RedirectAttributes ra) {
 		try {
+			LOGGER.debug("Creando nueva tarea...");
 			model.addAttribute("lista", obtenerLista(idLista));
 			model.addAttribute("tarea", this.tareaService.crear(idLista));
 			return DETAILS_PAGE;
@@ -89,15 +91,17 @@ public class TareaController {
 
 	@PostMapping(value = "/tarea/guardar")
 	public String guardar(@Valid Tarea tarea, BindingResult result, RedirectAttributes ra) {
+		LOGGER.debug("Guardando tarea...");
 		this.tareaService.guardar(tarea);
 		ra.addFlashAttribute("Tarea creada.");
-		return "redirect:/";
+		return "redirect:/lista/" + idLista;
 	}
 
 	@GetMapping(value = "/{id}")
 	public String editar(@PathVariable("idLista") Long idLista, @PathVariable Long id, Model model,
 			RedirectAttributes ra) {
-		try {
+		LOGGER.debug("Editando tarea...");
+		try {			
 			model.addAttribute("lista", obtenerLista(idLista));
 			model.addAttribute("tarea", this.tareaService.obtener(id));
 			return DETAILS_PAGE;
@@ -113,6 +117,7 @@ public class TareaController {
 
 	@PostMapping(value = "/tarea/{id}")
 	public String actualizar(@Valid Tarea tarea, BindingResult result, RedirectAttributes ra, @PathVariable Long id) {
+		LOGGER.debug("Actualizando tarea...");
 		tarea.setId(id);
 		this.tareaService.guardar(tarea);
 		ra.addFlashAttribute("Tarea creada.");
@@ -121,6 +126,7 @@ public class TareaController {
 
 	@GetMapping(value = "/tarea/{id}/eliminar")
 	public String eliminar(RedirectAttributes ra, @PathVariable Long id) {
+		LOGGER.debug("Eliminando tarea...");
 		this.tareaService.eliminar(id);
 		ra.addFlashAttribute("Tarea eliminada");
 		return "redirect:/";
@@ -128,6 +134,7 @@ public class TareaController {
 
 	@GetMapping(value = "/tarea/{id}/realizar")
 	public String realizar(RedirectAttributes ra, @PathVariable Long id) {
+		LOGGER.debug("Realizando tarea...");
 		this.tareaService.realizada(id);
 		ra.addFlashAttribute("Tarea realizada");
 		return "redirect:/";

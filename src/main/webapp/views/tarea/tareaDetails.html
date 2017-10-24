@@ -16,10 +16,10 @@
 	</nav>
 	<div class="container">
 
-		<form class="form-group" th:action="@{(${tarea.id} ? '/tarea/__${tarea.id}__' : '/tarea/guardar')}" th:object="${tarea}" method="post">
+		<form class="form-group" th:action="@{(${tarea.id} ? '/lista/__${lista.id}__/tarea/__${tarea.id}__' : '/lista/__${lista.id}__/tarea/guardar')}" th:object="${tarea}" method="post">
 			<fieldset>
 				<input type="hidden" th:field="*{id}" />
-				<h2 class="form-signin-heading" th:text="${tarea.id} ${tarea.id} ? #{tarea.details.modificar.tarea} : #{tarea.details.crear.tarea}">Gestion tarea</h2>
+				<h2 class="form-signin-heading" th:text="${tarea.id} ? #{tarea.details.modificar.tarea} : #{tarea.details.crear.tarea}">Gestion tarea</h2>
 				<div class="form-group col-xs-12 required" th:classappend="${#fields.hasErrors('nombre')}? 'has-error has-feedback '">
 					<label for="nombre" class="sr-only" th:text="#{tarea.details.nombre}">Nombre</label> <input type="text" id="nombre" name="nombre" th:field="*{nombre}" class="form-control"
 						placeholder="Nombre" required="required" autofocus="autofocus" maxlength="250" />
