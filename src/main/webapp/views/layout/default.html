@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/security"
-	xmlns:layout="http://www.thymeleaf.org/layout">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <title>Default Layout Page</title>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link rel="stylesheet"
-	th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/webjars/materializecss/0.100.2/css/materialize.css}" />
 </head>
 <body>
 
@@ -36,7 +35,7 @@
 	</header>
 
 	<!-- content-wrapper -->
-	<div class="content-wrapper" layout:fragment="content"></div>
+	<section layout:fragment="content"></section>
 	<!-- /.content-wrapper -->
 
 	<footer class="main-footer">
@@ -46,8 +45,8 @@
 		</div>
 	</footer>
 
+	<script th:src="@{/webjars/materializecss/0.100.2/js/materialize.js}"></script>
 	<script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
-	<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
 
 	<div class="hidden" layout:fragment="page-scripts"></div>
 

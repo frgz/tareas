@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/security" xmlns:layout="http://www.thymeleaf.org/layout" layout:decorate="~{layout/default}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/security" 
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="~{layout/default}">
 <head>
 <title>Listas de tareas :: Gestor tareas personal</title>
 <meta charset="utf-8" />
-<link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/custom.css}" />
 </head>
 <body>
 
@@ -54,8 +53,5 @@
 		</div>
 
 	</div>
-
-	<script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
-	<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
 </body>
 </html>

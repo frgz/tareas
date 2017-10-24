@@ -90,7 +90,7 @@ public class TareaController {
 	}
 
 	@PostMapping(value = "/tarea/guardar")
-	public String guardar(@Valid Tarea tarea, BindingResult result, RedirectAttributes ra) {
+	public String guardar(@PathVariable("idLista") Long idLista, @Valid Tarea tarea, BindingResult result, RedirectAttributes ra) {
 		LOGGER.debug("Guardando tarea...");
 		this.tareaService.guardar(tarea);
 		ra.addFlashAttribute("Tarea creada.");

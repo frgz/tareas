@@ -27,7 +27,7 @@
 		<org.hibernate.version>4.2.1.Final</org.hibernate.version>
 
 		<!-- Webjars versions -->
-		<org.webjar.bootstrap.version>3.3.7-1</org.webjar.bootstrap.version>
+		<org.webjar.materializecss.version>0.100.2</org.webjar.materializecss.version>
 		<org.webjars.version>3.1.1</org.webjars.version>
 	</properties>
 
@@ -103,8 +103,8 @@
 		<!-- Webjars -->
 		<dependency>
 			<groupId>org.webjars</groupId>
-			<artifactId>bootstrap</artifactId>
-			<version>${org.webjar.bootstrap.version}</version>
+			<artifactId>materializecss</artifactId>
+			<version>${org.webjar.materializecss.version}</version>
 		</dependency>
 
 		<dependency>

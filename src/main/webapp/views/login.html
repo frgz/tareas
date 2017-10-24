@@ -5,31 +5,46 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/webjars/materializecss/0.100.2/css/materialize.css}" />
 </head>
-<body>
+<body>	
 	<div class="container">
-		<div class="col-xs-6">
-			<form th:action="@{/login}" method="post" class="form-signin" role="form">
-				<h2 class="form-signin-heading" th:text="#{login.entrada.sistema}">Entrada ao sistema</h2>
-				<input type="email" class="form-control" name="email" id="email" placeholder="Email Address" required="" autofocus="" th:placeholder="#{login.email}" /> <input type="password"
-					class="form-control" name="password" id="password" placeholder="Password" required="" th:placeholder="#{login.contrasena}" />
-				<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
-				<div align="center" th:if="${param.error}">
-					<div class="alert alert-danger" role="alert">
-						<p style="font-size: 20; color: #FF1C19;" th:text="#{login.error.entrar.sistema}">Error al entrar al sistema</p>
-					</div>
+		<div class="row">
+			<div id="errorMessage" class="card-panel red lighten-2" th:if="${param.error}">
+				<span class="card-title" th:text="#{login.error.entrar.sistema}">Error al entrar al sistema.</span>
+			</div>
+			<div id="logoutMessage" class="card-panel blue lighten-2" th:if="${param.logout}">
+					<span class="card-title" th:text="#{login.desconexion.exito}">Se ha desconectado del sistema con éxito.</span>
+			</div>				
+		</div>
+
+		<div class="col s12 z-depth-4 card-panel grey lighten-5">
+		<form th:action="@{/login}" method="post" class="login-form" role="form">
+			<div class="row">
+				<div class="input-field col s12 center">
+						<p class="center login-form-text" th:text="#{app.name}">Gestor de tareas</p>
 				</div>
-				<div align="center" th:if="${param.logout}">
-					<div class="alert alert-info" role="info">
-						<p style="font-size: 20;" th:text="#{login.desconexion.exito}">Desconexión con éxito</p>
-					</div>
+			</div>
+			<div class="row margin">
+				<div class="input-field col s12">
+					<label for="email" th:text="#{login.email}" class="center-align">email</label>
+					<input type="email" class="validate" name="email" id="email" placeholder="Email Address" required="" autofocus="" th:placeholder="#{login.email}" />					
 				</div>
-			</form>
+			</div>
+			<div class="row margin">
+				<div class="input-field col s12">
+					<label for="password" th:text="#{login.contrasena}" class="center-align">contraseña</label>
+					<input type="password" class="validate" name="password" id="password" placeholder="Password" required="" th:placeholder="#{login.contrasena}" />				
+				</div>
+			</div>
+			<div class="row center">
+					<button class="btn waves-effect waves-light" type="submit"><span th:text="#{login.entrar}">entrar</span><i class="mdi-content-send right"></i></button>
+			</div>
+		</form>
 		</div>
 	</div>
 
-	<script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
-	<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+	<script th:src="@{/webjars/materializecss/0.100.2/js/materialize.js}"></script>
+	<script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>	
 </body>
 </html>
