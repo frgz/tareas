@@ -26,6 +26,9 @@
 		<!-- Hibernate versions -->
 		<org.hibernate.version>4.2.1.Final</org.hibernate.version>
 
+		<!--Thymeleaf Layout Dialect -->
+		<thymeleaf-layout-dialect.version>2.2.2</thymeleaf-layout-dialect.version>
+
 		<!-- Webjars versions -->
 		<org.webjar.materializecss.version>0.100.2</org.webjar.materializecss.version>
 		<org.webjars.version>3.1.1</org.webjars.version>
@@ -88,17 +91,18 @@
 			<artifactId>hibernate-entitymanager</artifactId>
 		</dependency>
 
-		<!-- H2 database -->
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-
+		<!-- MySQL database -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
+
+		<!--Thymeleaf Layout Dialect -->
+		<dependency>
+            <groupId>nz.net.ultraq.thymeleaf</groupId>
+            <artifactId>thymeleaf-layout-dialect</artifactId>
+            <version>${thymeleaf-layout-dialect.version}</version>
+        </dependency>
 
 		<!-- Webjars -->
 		<dependency>
