@@ -81,47 +81,4 @@ public class EntidadAuditable implements Serializable {
 		this.fechaUltimaModificacion = fechaUltimaModificacion;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((fechaCreacion == null) ? 0 : fechaCreacion.hashCode());
-		result = prime * result + ((fechaUltimaModificacion == null) ? 0 : fechaUltimaModificacion.hashCode());
-		result = prime * result + ((usuarioCreacion == null) ? 0 : usuarioCreacion.hashCode());
-		result = prime * result + ((usuarioUltimaModificacion == null) ? 0 : usuarioUltimaModificacion.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		EntidadAuditable other = (EntidadAuditable) obj;
-		if (fechaCreacion == null) {
-			if (other.fechaCreacion != null)
-				return false;
-		} else if (!fechaCreacion.equals(other.fechaCreacion))
-			return false;
-		if (fechaUltimaModificacion == null) {
-			if (other.fechaUltimaModificacion != null)
-				return false;
-		} else if (!fechaUltimaModificacion.equals(other.fechaUltimaModificacion))
-			return false;
-		if (usuarioCreacion == null) {
-			if (other.usuarioCreacion != null)
-				return false;
-		} else if (!usuarioCreacion.equals(other.usuarioCreacion))
-			return false;
-		if (usuarioUltimaModificacion == null) {
-			if (other.usuarioUltimaModificacion != null)
-				return false;
-		} else if (!usuarioUltimaModificacion.equals(other.usuarioUltimaModificacion))
-			return false;
-		return true;
-	}	
-
 }
