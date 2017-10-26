@@ -118,64 +118,17 @@ public class Tarea implements Serializable {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((completada == null) ? 0 : completada.hashCode());
-		result = prime * result + ((descripcion == null) ? 0 : descripcion.hashCode());
-		result = prime * result + ((fechaRealizacion == null) ? 0 : fechaRealizacion.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((lista == null) ? 0 : lista.hashCode());
-		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		result = prime * result + ((propietario == null) ? 0 : propietario.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Tarea tarea = (Tarea) o;
+
+		return id != null ? id.equals(tarea.id) : tarea.id == null;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Tarea other = (Tarea) obj;
-		if (completada == null) {
-			if (other.completada != null)
-				return false;
-		} else if (!completada.equals(other.completada))
-			return false;
-		if (descripcion == null) {
-			if (other.descripcion != null)
-				return false;
-		} else if (!descripcion.equals(other.descripcion))
-			return false;
-		if (fechaRealizacion == null) {
-			if (other.fechaRealizacion != null)
-				return false;
-		} else if (!fechaRealizacion.equals(other.fechaRealizacion))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (lista == null) {
-			if (other.lista != null)
-				return false;
-		} else if (!lista.equals(other.lista))
-			return false;
-		if (nombre == null) {
-			if (other.nombre != null)
-				return false;
-		} else if (!nombre.equals(other.nombre))
-			return false;
-		if (propietario == null) {
-			if (other.propietario != null)
-				return false;
-		} else if (!propietario.equals(other.propietario))
-			return false;
-		return true;
+	public int hashCode() {
+		return id != null ? id.hashCode() : 0;
 	}
-
 }

@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.7.RELEASE</version>
+		<version>1.5.8.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
@@ -27,7 +27,7 @@
 		<org.hibernate.version>4.2.1.Final</org.hibernate.version>
 
 		<!--Thymeleaf Layout Dialect -->
-		<thymeleaf-layout-dialect.version>2.2.2</thymeleaf-layout-dialect.version>
+		<thymeleaf-layout-dialect.version>1.4.0</thymeleaf-layout-dialect.version>
 
 		<!-- Webjars versions -->
 		<org.webjar.materializecss.version>0.100.2</org.webjar.materializecss.version>
