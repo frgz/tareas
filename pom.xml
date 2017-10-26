@@ -34,6 +34,26 @@
 		<org.webjars.version>3.1.1</org.webjars.version>
 	</properties>
 
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:git@github.com:frgz/tareas</connection>
+        <developerConnection>scm:git:git@github.com:frgz/tareas</developerConnection>
+        <url>https://github.com/frgz/tareas</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>Fabio Dieguez</name>
+            <email>fabio.dieguez@gmail.com</email>
+        </developer>
+    </developers>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
