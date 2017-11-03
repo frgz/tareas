@@ -15,8 +15,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.frgz.tareas.role.Role;
-
 /**
  * 
  * @author fabio
